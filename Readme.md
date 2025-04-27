@@ -128,6 +128,7 @@ Outlier dalam dataset ini akan diperiksa menggunakan **boxplot**, yang dapat dil
 
 
 ![image](https://github.com/aldozeepriyadi/Machine-learning-terapan-1/blob/main/assets/Gambar1.png)
+
 Gambar 1: Pengecekan Outlier
 
 - **Insight yang didapatkan dari Gambar boxplot pada pengecekan outlier:**
