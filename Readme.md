@@ -63,7 +63,7 @@ Dataset ini memiliki total **737453 baris** data dan **24 kolom** yang berisi be
 - Memiliki distribusi yang tidak normal maka harus melakukan Penanganan Outlier pada kolom % Iron Feed, %Silica Feed, Starch Flow, Amina Flow, Ore Pulp Flow, Ore Pulp pH, Ore Pulp Density, % Iron Concentrate, dan % Silica Concentrate
 
 ### **Deskripsi Kolom:**
- **date**: Tanggal dan waktu pengukuran.
+- **date**: Tanggal dan waktu pengukuran.
 - **% Iron Feed**: Persentase kandungan besi dalam umpan bijih.
 - **% Silica Feed**: Persentase kandungan silika dalam umpan bijih.
 - **Starch Flow**: Aliran bahan pati yang digunakan dalam proses flotasi untuk meningkatkan selektivitas pemisahan.
