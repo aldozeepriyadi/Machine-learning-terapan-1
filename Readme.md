@@ -1,28 +1,28 @@
 # Predictive Analysis - Klasifikasi Kualitas dalam Proses Tambang bijih besi - Aldo Fernando Supriyadi
 
-# 1. Domain Proyek
+# Domain Proyek
 
 Industri pertambangan berperan penting dalam menyediakan bahan baku yang diperlukan untuk berbagai sektor, termasuk energi, konstruksi, dan manufaktur. Salah satu tantangan terbesar dalam industri ini adalah memastikan bahwa bahan tambang yang diekstraksi memiliki kualitas yang sesuai dengan standar pasar. Kualitas bijih besi yang tidak konsisten dapat menyebabkan kerugian finansial, pemborosan sumber daya, dan menurunnya efisiensi operasional [1]. Oleh karena itu, penting bagi perusahaan pertambangan untuk dapat memprediksi kualitas bahan tambang yang dihasilkan secara lebih akurat dan efisien. Pada umumnya, penilaian kualitas dalam proses tambang dilakukan melalui pengujian laboratorium atau pengamatan visual yang memakan waktu [2]. Proses manual seperti ini sering kali tidak dapat memberikan hasil yang cepat, yang dapat menghambat pengambilan keputusan yang penting untuk optimasi proses penambangan [3].
 
-# 2. Business Understanding
+# Business Understanding
 Pengembangan model prediksi kualitas dalam proses tambang memiliki potensi besar dalam memberikan manfaat nyata bagi berbagai pemangku kepentingan dalam sektor pertambangan. Penerapan sistem klasifikasi kualitas yang akurat dapat membantu perusahaan pertambangan dalam memisahkan bahan tambang berkualitas tinggi dari yang rendah, sehingga dapat meningkatkan efisiensi operasional dan mengurangi kerugian.
 
 Manfaat utama dari model ini adalah peningkatan efisiensi proses penambangan dan optimalisasi penggunaan sumber daya, yang pada akhirnya berdampak pada peningkatan keuntungan dan daya saing perusahaan. Dengan informasi prediktif yang dihasilkan dari model, perusahaan dapat menentukan strategi produksi dan distribusi yang lebih baik.
 
-## 2.1 Problem Statements
+## Problem Statements
 Berdasarkan tujuan yang telah dipaparkan, berikut adalah masalah utama yang ingin diselesaikan dalam proyek ini:
 1. **Bagaimana membangun model machine learning** yang dapat memprediksi kualitas bijih besi berdasarkan variabel seperti % Iron Feed, % Silica Feed, pH pulp bijih, dan parameter lainnya.
 2. **Bagaimana mengukur kinerja model prediktif** dengan menggunakan metrik evaluasi yang tepat, seperti akurasi dan kesalahan prediksi (RMSE dan MAE), untuk memastikan model dapat digunakan dalam praktik di lapangan.
 3. **Bagaimana memanfaatkan model ini untuk meningkatkan efisiensi proses flotasi**, mengurangi pemborosan material, dan mempercepat pengambilan keputusan terkait kualitas bijih.
 
 
-## 2.2 Goals
+## Goals
 Tujuan dari proyek ini adalah untuk:
 1. **Membangun model prediktif berbasis machine learning** yang dapat memproses data historis tentang proses flotasi dan memprediksi kualitas bijih besi yang dihasilkan.
 2. **Mengevaluasi performa model** menggunakan metrik yang relevan seperti R², RMSE, dan MAE untuk memastikan akurasi dan efektivitasnya dalam memprediksi kualitas bijih.
 3. **Menyediakan solusi berbasis data** yang dapat digunakan untuk mempercepat proses analisis dan meningkatkan efisiensi operasional di sektor pertambangan.
 
-## 2.3 Solution Statements
+## Solution Statements
 
 Beberapa langkah yang akan diambil untuk mencapai tujuan proyek ini adalah:
 
@@ -31,8 +31,8 @@ Beberapa langkah yang akan diambil untuk mencapai tujuan proyek ini adalah:
 3. **Pengembangan Model:** Menggunakan algoritma machine learning seperti **Linear Regression**, **Random Forest**, dan **K-Nearest Neighbors (KNN)** untuk membangun model prediksi dan mengevaluasi kinerjanya.
 4. **Evaluasi Model:** Menggunakan metrik evaluasi seperti **R²**, **RMSE**, dan **MAE** untuk mengevaluasi akurasi model dan membandingkan performa berbagai model.
 
-# 3. Data Understanding
-## 3.1 EDA - Deskripsi Variabel
+# Data Understanding
+## Deskripsi Variabel
 ### **Informasi Datasets**
 
 | Jenis   | Keterangan |
@@ -88,7 +88,7 @@ Dataset ini memiliki total **737453 baris** data dan **24 kolom** yang berisi be
 - **% Iron Concentrate**: Persentase konsentrasi besi pada hasil flotasi, yang mengindikasikan keberhasilan pemisahan bijih besi dari kotoran.
 - **% Silica Concentrate**: Persentase konsentrasi silika pada hasil flotasi, yang menunjukkan tingkat kotoran silika yang tersisa setelah proses flotasi.
 
-## 3.2 EDA - Pengecekan dan Penanganan Missing Value, Data Duplikat dan Tipe data
+## Pengecekan dan Penanganan Missing Value, Data Duplikat dan Tipe data
 
 Pada tahap ini, dilakukan pengecekan untuk memastikan bahwa tidak ada nilai yang hilang (`missing value`) atau data yang berulang (`duplicated data`). Pengecekan tipe data juga dilakukan untuk memastikan bahwa semua kolom memiliki tipe data yang sesuai dengan jenis informasi yang terkandung dalam setiap kolom.
 
@@ -122,7 +122,7 @@ Kolom baru yang dihasilkan, yaitu `Average Air Flow` dan `Average Froth Level`, 
 Setelah itu, kolom-kolom individu yang berkaitan dengan Air Flow dan Froth Level dihapus, karena informasi yang relevan sudah digabungkan dalam kolom rata-rata.
 
  
-## 3.3 EDA - Pengecekan dan Penanganan Outlier
+## Pengecekan dan Penanganan Outlier
 
 Outlier dalam dataset ini akan diperiksa menggunakan **boxplot**, yang dapat dilihat pada gambar di bawah. Boxplot ini menggambarkan distribusi data dari kolom-kolom numerik dan menunjukkan adanya nilai ekstrim yang berpotensi mengganggu analisis lebih lanjut.
 
@@ -149,14 +149,14 @@ Gambar 1: Pengecekan Outlier
 
 - Setelah menangani outlier jumlah data berubah yang awalnya 737453 data menjadi 577178 data.
 
-## 3.4 EDA - Univariate Analysis
-
-### 3.4.1 Numerical Column
+## EDA - Univariate Analysis
 
 Untuk analisis univariat pada kolom numerik, digunakan dua jenis visualisasi yaitu **Histogram** dan **Violin Plot** untuk mengeksplorasi distribusi data dan menemukan pola yang ada pada setiap fitur.
 
 - **Histogram** digunakan untuk melihat distribusi frekuensi dari kolom numerik, apakah terdistribusi normal, skewed, atau distribusi lainnya.
- 
+  
+![image](https://github.com/aldozeepriyadi/Machine-learning-terapan-1/blob/main/assets/Gambar2.png)
+
 Gambar 2: Histogram Persebaran Ore Pulp pH dan Ore Pulp Density
 
 - **Insight yang didapatkan dari Gambar 2:**
@@ -164,7 +164,9 @@ Gambar 2: Histogram Persebaran Ore Pulp pH dan Ore Pulp Density
   - **Ore Pulp Density** menunjukkan bahwa titik data mayoritas berada di kelompok **1.52 hingga 1.75**.
 
 - **Violin Plot** digunakan untuk menggambarkan distribusi dan variabilitas data numerik. Di bawah ini adalah visualisasi rata-rata **Air Flow** dan **Froth Level** pada **Flotation Column 1-7**.
- 
+
+![image](https://github.com/aldozeepriyadi/Machine-learning-terapan-1/blob/main/assets/Gambar3.png)
+
 Gambar 3: Violin Plot untuk Rata-rata Air Flow dan Rata-rata Froth Level di Column 1 - 7
 
 - **Insight yang didapatkan dari Gambar 3:**
@@ -173,9 +175,8 @@ Gambar 3: Violin Plot untuk Rata-rata Air Flow dan Rata-rata Froth Level di Colu
 
 Distribusi ini menunjukkan variasi yang signifikan dalam nilai **Air Flow**, yang dapat mempengaruhi proses flotasi, sedangkan distribusi **Froth Level** cenderung lebih stabil dan menunjukkan nilai rata-rata yang lebih konsisten.
 
-## 3.5 EDA - Bivariate Analysis
+## EDA - Bivariate Analysis
 
-### 3.5.1 Numeric Columns
 
 Pada tahap ini, analisis dilakukan untuk memahami hubungan antara fitur numerik yang ada dalam dataset. Fokus utama adalah untuk mengeksplorasi korelasi antara variabel-variabel penting yang dapat memberikan wawasan lebih lanjut tentang hubungan antar fitur.
 
@@ -183,6 +184,8 @@ Pada tahap ini, analisis dilakukan untuk memahami hubungan antara fitur numerik 
 
 Untuk memulai, kita mengeksplorasi hubungan antara **% Iron Feed** sebagai input dan **% Iron Concentrate** sebagai output dengan menggunakan scatter plot. Visualisasi ini bertujuan untuk melihat apakah ada hubungan linier antara keduanya.
 
+
+![image](https://github.com/aldozeepriyadi/Machine-learning-terapan-1/blob/main/assets/Gambar4.png)
 
 **Gambar 4**: Scatter Plot % Iron Feed vs % Iron Concentrate
 
@@ -195,21 +198,25 @@ Untuk memulai, kita mengeksplorasi hubungan antara **% Iron Feed** sebagai input
 Selanjutnya, kami menganalisis korelasi antara **% Iron Concentrate** dan **% Silica Concentrate**. Ini akan membantu kita memahami hubungan antara konsentrasi kedua elemen tersebut dalam hasil tambang.
 
 
+![image](https://github.com/aldozeepriyadi/Machine-learning-terapan-1/blob/main/assets/Gambar5.png)
+
 **Gambar 5**: Heatmap Korelasi antara % Iron Concentrate dan % Silica Concentrate
 
 - **Insight yang didapatkan dari Gambar 5:**
   - Terlihat bahwa terdapat korelasi negatif yang cukup kuat antara **% Iron Concentrate** dan **% Silica Concentrate**. Hal ini berarti bahwa semakin tinggi **% Besi** dalam output, semakin sedikit **% Silika**, dan sebaliknya.
   - Ini menunjukkan bahwa proses penambangan dapat memisahkan kedua elemen ini dalam tingkat yang cukup baik, dimana **konsentrasi besi lebih tinggi** mengurangi **konsentrasi silika**, dan ini dapat digunakan untuk optimasi proses pengolahan.
 
-## 3.6 EDA - Multivariate Analysis
+## EDA - Multivariate Analysis
 
-### 3.6.1 Numeric Columns
 
 Pada tahap ini, dilakukan analisis untuk melihat hubungan antara beberapa fitur numerik secara bersamaan untuk memahami bagaimana mereka saling berinteraksi. Analisis ini membantu dalam mengeksplorasi korelasi antara berbagai fitur numerik dan bagaimana mereka mungkin memengaruhi hasil akhir.
 
 #### Heatmap Korelasi Antara Fitur Numerik
 
 Kami memulai dengan mengeksplorasi korelasi antar fitur numerik yang ada di dalam dataset menggunakan **heatmap korelasi**. Visualisasi ini memberikan gambaran umum tentang seberapa kuat hubungan antara fitur-fitur numerik.
+
+
+![image](https://github.com/aldozeepriyadi/Machine-learning-terapan-1/blob/main/assets/Gambar6.png)
 
 **Gambar 6**: Heatmap Korelasi antara Fitur Numerik
 
