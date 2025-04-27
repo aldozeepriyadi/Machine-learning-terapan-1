@@ -127,7 +127,7 @@ Setelah itu, kolom-kolom individu yang berkaitan dengan Air Flow dan Froth Level
 Outlier dalam dataset ini akan diperiksa menggunakan **boxplot**, yang dapat dilihat pada gambar di bawah. Boxplot ini menggambarkan distribusi data dari kolom-kolom numerik dan menunjukkan adanya nilai ekstrim yang berpotensi mengganggu analisis lebih lanjut.
 
 
-![image](assets\Gambar1.png)
+![image](aldozeepriyadi/Machine-learning-terapan-1/assets/Gambar1.png)
 Gambar 1: Pengecekan Outlier
 
 - **Insight yang didapatkan dari Gambar boxplot pada pengecekan outlier:**
