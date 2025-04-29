@@ -487,7 +487,7 @@ Proyek ini berhasil mencapai setiap tujuan yang ditetapkan, dengan hasil yang me
 
 
 # Referensi
-[1] V. N. Oparin, "Mining Industry and Sustainable Development: Time for Change," Journal of Mining Science, vol. 52, no. 6, pp. 1430-1441, Dec. 2016.
-[2] F. Arif, N. Suryana, and B. Hussin, "A Data Mining Approach for Developing Quality Prediction Model in Multi-Stage Manufacturing," International Journal of Computer Applications, vol. 77, no. 15, pp. 1-7, Sep. 2013.
-[3] D. Lieber, M. Stolpe, B. Konrad, J. Deuse, and K. Morik, "Machine Learning and Deep Learning Based Predictive Quality in Interlinked Manufacturing Processes," Procedia CIRP, vol. 79, pp. 302-307, 2019.
+1. V. N. Oparin, "Mining Industry and Sustainable Development: Time for Change," Journal of Mining Science, vol. 52, no. 6, pp. 1430-1441, Dec. 2016.
+2. F. Arif, N. Suryana, and B. Hussin, "A Data Mining Approach for Developing Quality Prediction Model in Multi-Stage Manufacturing," International Journal of Computer Applications, vol. 77, no. 15, pp. 1-7, Sep. 2013.
+3. D. Lieber, M. Stolpe, B. Konrad, J. Deuse, and K. Morik, "Machine Learning and Deep Learning Based Predictive Quality in Interlinked Manufacturing Processes," Procedia CIRP, vol. 79, pp. 302-307, 2019.
 
