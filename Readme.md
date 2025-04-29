@@ -88,7 +88,7 @@ Dataset ini memiliki total **737453 baris** data dan **24 kolom** yang berisi be
 - **% Iron Concentrate**: Persentase konsentrasi besi pada hasil flotasi, yang mengindikasikan keberhasilan pemisahan bijih besi dari kotoran.
 - **% Silica Concentrate**: Persentase konsentrasi silika pada hasil flotasi, yang menunjukkan tingkat kotoran silika yang tersisa setelah proses flotasi.
 
-## Pengecekan dan Penanganan Missing Value, Data Duplikat dan Tipe data
+## Pengecekan Missing Value, Data Duplikat dan Tipe data
 
 Pada tahap ini, dilakukan pengecekan untuk memastikan bahwa tidak ada nilai yang hilang (`missing value`) atau data yang berulang (`duplicated data`). Pengecekan tipe data juga dilakukan untuk memastikan bahwa semua kolom memiliki tipe data yang sesuai dengan jenis informasi yang terkandung dalam setiap kolom.
 
@@ -104,25 +104,15 @@ Baris-baris data yang terduplikasi dihapus untuk membersihkan dataset.
 
 Saat memeriksa tipe data dataset, ditemukan bahwa semua kolom bertipe `object`.
  Hal ini menunjukkan bahwa beberapa kolom yang seharusnya bertipe numerik perlu diubah menjadi tipe data yang tepat.
-
-### **Perubahan Tipe Data:**
+## **Perubahan Tipe Data:**
 - Kolom `date` diubah menjadi tipe `datetime` agar dapat dianalisis dalam konteks waktu.
 - Kolom-kolom lainnya yang berisi data numerik, seperti aliran udara dan level busa, diubah menjadi tipe data `float`.
 
 Selain itu, karakter seperti koma (`,`) diubah menjadi titik (`.`) untuk memastikan data numerik dapat diproses dengan benar.
 
-### **Menghitung Rata-Rata Air Flow dan Froth Level**
-
-Dalam analisis ini, kolom-kolom yang berkaitan dengan aliran udara (Air Flow) dan level busa (Froth Level) dihitung rata-ratanya untuk mendapatkan informasi yang lebih berguna. Kolom-kolom tersebut mencakup:
-- Air Flow: Menghitung rata-rata aliran udara dari kolom-kolom yang tersedia.
-- Froth Level: Menghitung rata-rata level busa dari kolom-kolom yang tersedia.
-
-Kolom baru yang dihasilkan, yaitu `Average Air Flow` dan `Average Froth Level`, ditambahkan ke dalam dataset dan ditempatkan pada posisi yang sesuai.
-
-Setelah itu, kolom-kolom individu yang berkaitan dengan Air Flow dan Froth Level dihapus, karena informasi yang relevan sudah digabungkan dalam kolom rata-rata.
 
  
-## Pengecekan dan Penanganan Outlier
+## Pengecekan Outlier
 
 Outlier dalam dataset ini akan diperiksa menggunakan **boxplot**, yang dapat dilihat pada gambar di bawah. Boxplot ini menggambarkan distribusi data dari kolom-kolom numerik dan menunjukkan adanya nilai ekstrim yang berpotensi mengganggu analisis lebih lanjut.
 
@@ -134,20 +124,7 @@ Gambar 1: Pengecekan Outlier
 - **Insight yang didapatkan dari Gambar boxplot pada pengecekan outlier:**
   - Berdasarkan boxplot yang ditampilkan, terlihat bahwa sebagian besar kolom numerik menunjukkan adanya outlier yang ditandai dengan simbol bulat.
   - Kolom-kolom yang menunjukkan outlier tersebut perlu penanganan lebih lanjut agar analisis tidak terganggu oleh data yang tidak normal.
-  
-- **Penanganan Outlier:**
-  Untuk menangani outlier, dilakukan penghapusan berdasarkan metode **Interquartile Range (IQR)**. IQR dihitung dengan mengurangkan **kuartil ketiga (Q3)** dari **kuartil pertama (Q1)**. Dengan rumus berikut:
 
-  $$ IQR = Q_3 - Q_1 $$
-
-  - **Q1 (kuartil pertama)** adalah nilai yang berada pada persentil ke-25.
-  - **Q3 (kuartil ketiga)** adalah nilai yang berada pada persentil ke-75.
-  
-  Data yang berada di luar rentang **(Q1 - 1.5 * IQR)** hingga **(Q3 + 1.5 * IQR)** dianggap sebagai outlier dan akan dihapus.
-
-  Setelah melakukan penanganan outlier menggunakan metode IQR, dataset yang awalnya berjumlah **737453** baris, menjadi **sejumlah baris yang lebih sedikit** karena data yang terduplikasi atau outlier telah dihapus.
-
-- Setelah menangani outlier jumlah data berubah yang awalnya 737453 data menjadi 577178 data.
 
 ## EDA - Univariate Analysis
 
@@ -226,10 +203,34 @@ Kami memulai dengan mengeksplorasi korelasi antar fitur numerik yang ada di dala
   - **% Iron Feed** dan **% Silica Feed** juga menunjukkan hubungan korelasi negatif. Ini berarti bahwa lebih banyak pakan besi dapat menghasilkan lebih sedikit pakan silika dalam proses.
   - **Amina Flow**, **Ore Pulp pH**, dan **Air Flow** memiliki korelasi yang lebih tinggi dengan **% Silica Concentrate** jika dibandingkan dengan variabel lainnya (termasuk **% Iron Concentrate**).
 
-# 4. Data Preparation
+# Data Preparation
 Pada tahap data preparation, setelah memahami kondisi data maka dilakukanlah preprocessing agar data tersebut dapat dilatih oleh model. Tahapannya dapat diikuti seperti dibawah:
 
-## 4.1 Mengidentifikasi Fitur dan Label
+
+## Penanganan Data Duplikasi
+
+Pada dataset ini, ditemukan adanya **1171 baris data duplikat**. Data duplikasi sering terjadi karena berbagai alasan, seperti kesalahan saat pengumpulan data, penggabungan beberapa sumber data, atau kesalahan dalam proses input data. Duplikasi ini dapat mengganggu analisis dan menyebabkan hasil yang tidak akurat. Oleh karena itu, penting untuk menangani data duplikasi dengan hati-hati untuk memastikan analisis yang dilakukan tetap valid dan akurat. Penanganan data duplikasi dilakukan dengan menggunakan **Python** dan **pandas**, yang memungkinkan untuk mengecek dan menghapus data yang terduplikasi, serta mempertahankan hanya data yang unik.
+Berikut adalah kode yang digunakan untuk menangani data duplikasi:
+
+```python
+df_mining = df_mining.drop_duplicates() 
+```
+
+## Penanganan Outlier
+  Untuk menangani outlier, dilakukan penghapusan berdasarkan metode **Interquartile Range (IQR)**. IQR dihitung dengan mengurangkan **kuartil ketiga (Q3)** dari **kuartil pertama (Q1)**. Dengan rumus berikut:
+
+  $$ IQR = Q_3 - Q_1 $$
+
+  - **Q1 (kuartil pertama)** adalah nilai yang berada pada persentil ke-25.
+  - **Q3 (kuartil ketiga)** adalah nilai yang berada pada persentil ke-75.
+  
+  Data yang berada di luar rentang **(Q1 - 1.5 * IQR)** hingga **(Q3 + 1.5 * IQR)** dianggap sebagai outlier dan akan dihapus.
+
+  Setelah melakukan penanganan outlier menggunakan metode IQR, dataset yang awalnya berjumlah **737453** baris, menjadi **sejumlah baris yang lebih sedikit** karena data yang terduplikasi atau outlier telah dihapus. Setelah menangani outlier jumlah data berubah yang awalnya 737453 data menjadi 426602 data.
+  
+
+
+## Mengidentifikasi Fitur dan Label
 
 Tahap selanjutnya adalah mengidentifikasi fitur dan label dari dataset. Fitur (*features*) adalah variabel yang digunakan sebagai input untuk memprediksi target, sedangkan label (*target*) adalah variabel yang ingin diprediksi.
 
@@ -251,7 +252,7 @@ Pada kasus ini:
 - **Label**:  
   - `% Silica Feed`, karena merupakan target untuk diprediksi.
 
-## 4.2 Membagi Data
+## Membagi Data
 Tahap berikutnya adalah membagi data menjadi data latih dan data uji dengan rasio 80:20. Pembagian ini penting untuk memastikan bahwa model tidak hanya belajar dari keseluruhan data tetapi juga diuji pada data yang belum pernah dilihat sebelumnya, sehingga performanya dapat dievaluasi secara objektif.
 
 Jumlah data awal yang tersedia adalah 737453 baris. Setelah dilakukan pembagian data:
@@ -259,144 +260,231 @@ Jumlah data awal yang tersedia adalah 737453 baris. Setelah dilakukan pembagian 
   - Data uji (test set): 115436 data (20%)
 
 
-# 5. Modeling
+# Model Development
 
 Pada proyek ini, tiga algoritma machine learning yang digunakan untuk memprediksi nilai % Silica Feed berdasarkan fitur-fitur yang tersedia di dataset adalah:
 
-## 5.1 Linear Regression
-Linear Regression adalah algoritma yang digunakan untuk memprediksi hubungan linear antara variabel input (fitur) dengan variabel output (target). Dalam konteks ini, Linear Regression digunakan untuk memprediksi nilai % Silica Feed berdasarkan fitur-fitur lainnya.
+## Linear Regression
 
-Model Linear Regression diterapkan menggunakan kode berikut:
+### Deskripsi
+**Linear Regression** adalah algoritma regresi yang digunakan untuk memodelkan hubungan linier antara variabel input (fitur) dan variabel output (target). Dalam kode ini, model **Linear Regression** digunakan untuk memprediksi nilai **% Silica Feed** berdasarkan fitur-fitur yang ada dalam dataset. Model ini mengasumsikan bahwa ada hubungan linier antara variabel input dan target.
+
+### Cara Kerja Linear Regression
+Model **Linear Regression** bekerja dengan mencari hubungan linier antara input (fitur) dan target (output). Proses ini dilakukan dengan menghitung koefisien regresi untuk setiap fitur, di mana koefisien ini meminimalkan kesalahan prediksi. Model ini berusaha meminimalkan **Mean Squared Error (MSE)** antara nilai yang diprediksi dan nilai yang sebenarnya.
+
+Secara matematis, hubungan ini digambarkan dengan persamaan:
+
+\[
+y = b_0 + b_1x_1 + b_2x_2 + \dots + b_nx_n
+\]
+
+Dimana:
+- \( y \) adalah nilai target yang diprediksi,
+- \( b_0 \) adalah intercept (titik potong dengan sumbu y),
+- \( b_1, b_2, \dots, b_n \) adalah koefisien regresi untuk masing-masing fitur \( x_1, x_2, \dots, x_n \).
+
+### Parameter Model Linear Regression yang Digunakan:
+#### **`fit_intercept`** (default: `True`):
+   - Menentukan apakah model akan menghitung intercept (titik potong dengan sumbu y). Jika `True`, model akan mencoba mencari nilai intercept terbaik untuk data. Jika diatur ke `False`, tidak ada intercept yang digunakan, dan model akan memaksa garis regresi melalui asal (0,0).
+
+
+### Kode Implementasi Linear Regression:
+Kode berikut digunakan untuk membangun dan melatih model Linear Regression, serta melakukan evaluasi menggunakan metrik evaluasi yang umum digunakan:
 
 ```python
-lr_model = LinearRegression()
+lr_model = LinearRegression(fit_intercept=True))
+
+# Melatih model menggunakan data pelatihan
 lr_model.fit(X_train, y_train)
 
+# Membuat prediksi dengan data uji
 y_pred_lr = lr_model.predict(X_test)
 
-r2_lr = r2_score(y_test, y_pred_lr)
-rmse_lr = np.sqrt(mean_squared_error(y_test, y_pred_lr))
-mae_lr = mean_absolute_error(y_test, y_pred_lr)
+# Evaluasi model menggunakan metrik yang umum
+r2_lr = r2_score(y_test, y_pred_lr)  # Menghitung R²
+rmse_lr = np.sqrt(mean_squared_error(y_test, y_pred_lr))  # Menghitung RMSE
+mae_lr = mean_absolute_error(y_test, y_pred_lr)  # Menghitung MAE
 
+# Menampilkan hasil evaluasi
 print(f"Linear Regression -> R²: {r2_lr:.3f}, RMSE: {rmse_lr:.2f}, MAE: {mae_lr:.2f}")
 ```
 
+## Random Forest Regressor
 
-### Hasil Evaluasi:
-- **R² (R-squared)**: 0.946
-- **RMSE (Root Mean Squared Error)**: 1.54
-- **MAE (Mean Absolute Error)**: 1.32
+### Deskripsi
+**Random Forest Regressor** adalah algoritma ensemble yang digunakan untuk memprediksi nilai numerik. Algoritma ini bekerja dengan membangun banyak pohon keputusan (decision trees) pada subset acak dari data pelatihan dan menggabungkan hasil prediksi dari masing-masing pohon untuk menghasilkan prediksi akhir. Random Forest sangat berguna dalam menangkap hubungan yang lebih kompleks antara fitur dan target, serta mengurangi overfitting yang sering terjadi pada pohon keputusan tunggal.
 
-### Penjelasan Hasil:
-- **R² (R-squared)**: Nilai **R²** sebesar **0.946** menunjukkan bahwa model Linear Regression ini dapat menjelaskan sekitar 94.6% variansi dalam data target (% Silica Feed). Ini berarti model ini cukup baik dalam menangkap pola data.
-  
-- **RMSE (Root Mean Squared Error)**: Nilai **RMSE** sebesar **1.54** menunjukkan bahwa prediksi model rata-rata menyimpang sekitar 1.54 unit dari nilai yang sebenarnya pada data uji.
+### Cara Kerja Random Forest
+**Random Forest** bekerja dengan membangun banyak pohon keputusan secara acak, dengan memilih subset acak dari data dan fitur untuk setiap pohon. Setiap pohon dilatih secara independen, dan hasil prediksi dari semua pohon digabungkan untuk menghasilkan prediksi final. Dalam regresi, hasil prediksi dari setiap pohon dijumlahkan atau dirata-ratakan untuk menghasilkan prediksi akhir.
 
-- **MAE (Mean Absolute Error)**: Nilai **MAE** sebesar **1.32** menunjukkan rata-rata kesalahan absolut model dalam memprediksi nilai **% Silica Feed** adalah 1.32 unit.
+Model ini sangat kuat karena dapat menangkap kompleksitas yang lebih besar dalam data dan memiliki mekanisme untuk menghindari overfitting.
 
-### Kelebihan dari Hasil Model:
-- Dengan **R²** yang tinggi, model Linear Regression memberikan indikasi yang baik bahwa model ini sangat sesuai untuk data yang memiliki hubungan linear.
-- Nilai **RMSE** dan **MAE** yang relatif rendah menunjukkan bahwa model ini memiliki prediksi yang cukup akurat.
+### Parameter Model Random Forest Regressor
 
-### Kekurangan dari Model:
-- **Linear Regression** dapat dipengaruhi oleh **outliers** (nilai ekstrim). Oleh karena itu, untuk dataset dengan banyak data ekstrim, hasil model ini mungkin tidak seakurat yang diharapkan.
-- Model ini mengasumsikan bahwa hubungan antara variabel input dan output bersifat **linear**. Jika hubungan data lebih kompleks atau non-linear, model ini mungkin tidak dapat menangkap pola yang ada.
+Dalam implementasi ini, hanya satu parameter yang digunakan, yaitu **`random_state`**:
 
-## 5.2 Random Forest
+#### **`random_state`** (default: `None`):
+   - Menentukan nilai seed acak untuk memastikan bahwa pembagian data dan pembuatan pohon keputusan dapat direproduksi. Ini sangat berguna ketika Anda ingin memastikan bahwa model yang dibangun menghasilkan hasil yang konsisten di setiap eksekusi. Menetapkan `random_state` ke nilai tetap, seperti `42`, akan menghasilkan hasil yang konsisten setiap kali model dijalankan.
 
+   Pada kode ini, `random_state` diatur ke nilai `42` untuk memastikan bahwa hasil model dapat direproduksi dan konsisten saat dijalankan berulang kali.
 
-Model **Random Forest** digunakan untuk memprediksi nilai **% Silica Feed** berdasarkan fitur-fitur lainnya pada dataset. Berikut adalah hasil evaluasi model setelah melakukan pelatihan dan prediksi:
+### Kode Implementasi Random Forest Regressor
 
-### Hasil Evaluasi:
-- **R² (R-squared)**: 1.000
-- **RMSE (Root Mean Squared Error)**: 0.03
-- **MAE (Mean Absolute Error)**: 0.00
-
-### Penjelasan Hasil:
-- **R² (R-squared)**: Nilai **R²** sebesar **1.000** menunjukkan bahwa model Random Forest ini dapat menjelaskan 100% variansi dalam data target (% Silica Feed). Ini menunjukkan bahwa model ini sangat baik dalam menangkap pola data dan dapat memberikan hasil prediksi yang sangat akurat.
-
-- **RMSE (Root Mean Squared Error)**: Nilai **RMSE** sebesar **0.03** menunjukkan bahwa prediksi model rata-rata menyimpang sangat sedikit, yaitu hanya sekitar 0.03 unit dari nilai yang sebenarnya pada data uji. Ini adalah hasil yang sangat baik, menunjukkan ketepatan prediksi yang sangat tinggi.
-
-- **MAE (Mean Absolute Error)**: Nilai **MAE** sebesar **0.00** menunjukkan bahwa model ini sangat akurat dalam memprediksi nilai **% Silica Feed**, dengan kesalahan rata-rata yang hampir tidak ada.
-
-### Kelebihan dari Hasil Model:
-- **R²** yang sangat tinggi (**1.000**) menandakan model Random Forest ini mampu memberikan prediksi yang sangat akurat, bahkan dapat menangkap hampir semua pola dalam data.
-- **RMSE** dan **MAE** yang sangat rendah menunjukkan bahwa model ini memberikan prediksi yang sangat tepat tanpa banyak kesalahan.
-
-### Kekurangan dari Model:
-- **Random Forest** cenderung lebih lambat dalam proses pelatihan pada dataset besar, terutama dengan banyak pohon keputusan, karena banyaknya model yang perlu dipelajari.
-- Meskipun akurat, model **Random Forest** sering kali sulit untuk diinterpretasikan karena banyaknya pohon keputusan yang digunakan, membuatnya lebih sebagai model "black-box" dibandingkan model yang lebih transparan.
-- **Overfitting** bisa terjadi pada data dengan banyak noise atau variabel yang tidak relevan, meskipun teknik **bagging** yang digunakan oleh Random Forest membantu meminimalkan hal ini.
-
-## 5.3 K-Nearest Neighbors (KNN)
-
-Model **K-Nearest Neighbors (KNN)** digunakan untuk memprediksi nilai **% Silica Feed** berdasarkan fitur-fitur lainnya pada dataset. Berikut adalah hasil evaluasi model setelah melakukan pelatihan dan prediksi:
-
-### Hasil Evaluasi:
-- **R² (R-squared)**: 0.669
-- **RMSE (Root Mean Squared Error)**: 3.82
-- **MAE (Mean Absolute Error)**: 2.59
-
-### Penjelasan Hasil:
-- **R² (R-squared)**: Nilai **R²** sebesar **0.669** menunjukkan bahwa model KNN dapat menjelaskan sekitar 66.9% variansi dalam data target (% Silica Feed). Nilai ini lebih rendah dibandingkan dengan model lain seperti **Random Forest**, yang menunjukkan bahwa KNN tidak seakurat model lainnya dalam menangkap pola data.
-  
-- **RMSE (Root Mean Squared Error)**: Nilai **RMSE** sebesar **3.82** menunjukkan bahwa prediksi model memiliki deviasi rata-rata yang lebih besar. Kesalahan prediksi model ini lebih signifikan dibandingkan dengan model **Linear Regression** atau **Random Forest**, yang memiliki RMSE yang lebih rendah.
-
-- **MAE (Mean Absolute Error)**: Nilai **MAE** sebesar **2.59** menunjukkan bahwa kesalahan rata-rata prediksi model KNN lebih besar dibandingkan dengan model lainnya. Ini menunjukkan bahwa model ini kurang efektif dalam memprediksi nilai target secara presisi.
-
-### Kelebihan dari Hasil Model:
-- **KNN** merupakan algoritma yang sederhana dan mudah dipahami, dan dalam beberapa kasus, dapat bekerja dengan baik tanpa banyak tuning parameter.
-- Dapat menangani data yang tidak linier dengan baik, sehingga cocok untuk data dengan hubungan yang lebih kompleks.
-
-### Kekurangan dari Model:
-- **R²**, **RMSE**, dan **MAE** yang rendah menunjukkan bahwa model ini tidak terlalu cocok untuk dataset ini, dengan performa yang lebih buruk dibandingkan **Random Forest** atau **Linear Regression**.
-- **KNN** cenderung memerlukan waktu lebih lama dalam prediksi jika dataset sangat besar, karena perlu menghitung jarak untuk setiap titik data.
-- Sensitif terhadap **outlier** dan **noise**, yang dapat sangat mempengaruhi kinerja model KNN.
-- Memilih nilai **k** yang tepat sangat penting dan memerlukan eksperimen, karena pemilihan yang salah dapat mempengaruhi akurasi model secara signifikan.
-
-# 6. Evaluasi Model
-
-Pada tahap evaluasi model, digunakan beberapa metrik evaluasi yang umum dalam permasalahan regresi untuk menilai performa model. Metrik-metrik yang digunakan meliputi:
-
-## 6.1 Evaluasi Visualisasi Model
-
-Pada evaluasi model kali ini, digunakan visualisasi untuk membandingkan hasil prediksi dengan data aktual pada setiap model yang diuji. Hasil dari **Linear Regression**, **Random Forest**, dan **K-Nearest Neighbors (KNN)** ditampilkan dengan menggunakan scatter plot.
-
-### Visualisasi Hasil Model
-- Scatter plot yang menunjukkan hubungan antara **Actual % Silica Feed** dan **Predicted % Silica Feed** pada setiap model.
-
-- Insight yang didapatkan dari visualisasi:
-  - **Linear Regression** dan **Random Forest** menunjukkan hasil prediksi yang sangat dekat dengan data aktual, dengan pola yang hampir sejajar dengan garis diagonal (red line).
-  - **KNN** menunjukkan pola yang lebih tersebar dengan lebih banyak variasi dalam prediksi dibandingkan kedua model lainnya.
-
-## 6.2 Testing pada Model
-
-Untuk lebih mendalami performa model, berikut adalah hasil prediksi model pada satu sampel data untuk setiap model yang diuji.
-
-### Sample Testing:
-- **Actual % Silica Feed**: 25.31
-- **Linear Regression Predicted**: 24.59
-- **Random Forest Predicted**: 25.31
-- **KNN Predicted**: 25.26
-
-#### Keterangan:
-- **Linear Regression** mendekati nilai aktual dengan selisih yang kecil.
-- **Random Forest** memprediksi nilai dengan tepat, sesuai dengan nilai aktual.
-- **KNN** menghasilkan prediksi yang sangat dekat dengan nilai aktual, meskipun sedikit berbeda.
+Berikut adalah kode untuk mengimplementasikan **Random Forest Regressor** dengan parameter **`random_state`**:
 
 ```python
-sample = X_test.iloc[[1]]
-actual_Silica = y_test.iloc[1]
+rf_model = RandomForestRegressor(random_state=42)
 
-pred_lr = lr_model.predict(sample)[0]
-pred_rf = rf_model.predict(sample)[0]
-pred_knn = knn_model.predict(sample)[0]
+# Melatih model dengan data pelatihan
+rf_model.fit(X_train, y_train)
 
-print(f"% Silica Feed Actual: {actual_Silica:.2f}")
-print(f"Linear Regression   : {pred_lr:.2f}")
-print(f"Random Forest       : {pred_rf:.2f}")
-print(f"KNN                 : {pred_knn:.2f}")
+# Membuat prediksi dengan data uji
+y_pred_rf = rf_model.predict(X_test)
+
+# Evaluasi model
+r2_rf = r2_score(y_test, y_pred_rf)
+rmse_rf = np.sqrt(mean_squared_error(y_test, y_pred_rf))
+mae_rf = mean_absolute_error(y_test, y_pred_rf)
+
+# Menampilkan hasil evaluasi
+print(f"Random Forest -> R²: {r2_rf:.3f}, RMSE: {rmse_rf:.2f}, MAE: {mae_rf:.2f}")
 ```
+
+## K-Nearest Neighbors (KNN)
+
+### Deskripsi
+**K-Nearest Neighbors (KNN)** adalah algoritma yang digunakan untuk regresi dan klasifikasi, di mana prediksi dilakukan berdasarkan kedekatan titik data yang ingin diprediksi dengan data yang sudah diketahui (tetangga terdekat). Untuk regresi, KNN menghitung rata-rata dari **k** tetangga terdekat untuk menghasilkan prediksi nilai target.
+
+### Cara Kerja KNN
+Model **K-Nearest Neighbors** melakukan prediksi dengan mencari **k** tetangga terdekat berdasarkan jarak antara data yang ingin diprediksi dengan data lainnya dalam dataset. Biasanya, jarak yang digunakan adalah jarak Euclidean. Setelah menemukan tetangga terdekat, model menghitung rata-rata nilai target dari tetangga tersebut untuk memberikan prediksi.
+
+Proses utamanya:
+1. **Perhitungan Jarak**: Menghitung jarak antara data yang ingin diprediksi dan semua data dalam dataset pelatihan.
+2. **Pemilihan K Tetangga Terdekat**: Memilih **k** tetangga terdekat berdasarkan jarak terpendek.
+3. **Prediksi**: Menghitung rata-rata nilai target dari **k** tetangga terdekat untuk memberikan prediksi.
+
+### Parameter Model K-Nearest Neighbors yang Digunakan
+
+#### **`n_neighbors`** (default: `5`):
+   - Menentukan jumlah tetangga yang digunakan untuk melakukan prediksi. Dalam implementasi ini, parameter **`n_neighbors`** diatur ke **`10`**, yang berarti model akan mempertimbangkan 10 tetangga terdekat untuk memprediksi nilai target. Nilai **k** yang optimal seringkali harus dicari melalui eksperimen, namun nilai **k = 10** cukup sering digunakan sebagai nilai awal untuk mencari keseimbangan antara bias dan varians.
+
+### Kode Implementasi K-Nearest Neighbors
+
+Berikut adalah kode untuk mengimplementasikan **K-Nearest Neighbors** dengan parameter **`n_neighbors=10`**:
+
+```python
+
+knn_model = KNeighborsRegressor(n_neighbors=10)
+
+# Melatih model dengan data pelatihan
+knn_model.fit(X_train, y_train)
+
+# Membuat prediksi dengan data uji
+y_pred_knn = knn_model.predict(X_test)
+
+# Evaluasi model
+r2_knn = r2_score(y_test, y_pred_knn)
+rmse_knn = np.sqrt(mean_squared_error(y_test, y_pred_knn))
+mae_knn = mean_absolute_error(y_test, y_pred_knn)
+
+# Menampilkan hasil evaluasi
+print(f"KNN -> R²: {r2_knn:.3f}, RMSE: {rmse_knn:.2f}, MAE: {mae_knn:.2f}")
+```
+
+# Evaluation
+
+Pada tahap evaluasi model, beberapa metrik evaluasi digunakan untuk menilai performa model dalam memprediksi kualitas **% Silica Feed** pada proses flotasi. Metrik yang digunakan dalam evaluasi meliputi **R² (R-squared)**, **RMSE (Root Mean Squared Error)**, dan **MAE (Mean Absolute Error)**. Metrik-metrik ini dipilih karena relevansinya dalam menilai akurasi dan kesalahan prediksi untuk model regresi.
+
+## Metrik Evaluasi yang Digunakan
+
+### 1. **R² (R-squared)**
+   **R²** adalah ukuran seberapa baik model dapat menjelaskan variansi dalam data target. Nilai **R²** yang lebih tinggi menunjukkan bahwa model memiliki kemampuan yang baik dalam menjelaskan variansi dalam data yang diprediksi. Nilai **R²** yang mendekati 1 menunjukkan prediksi yang sangat akurat.
+
+### 2. **RMSE (Root Mean Squared Error)**
+   **RMSE** mengukur seberapa besar rata-rata kesalahan kuadrat antara nilai yang diprediksi dan nilai yang sebenarnya. Semakin kecil nilai **RMSE**, semakin akurat model dalam memprediksi data target. RMSE yang lebih rendah menunjukkan model yang lebih presisi.
+
+### 3. **MAE (Mean Absolute Error)**
+   **MAE** mengukur rata-rata kesalahan absolut antara nilai prediksi dan nilai yang sebenarnya. Seperti RMSE, semakin rendah nilai **MAE**, semakin baik model dalam melakukan prediksi.
+
+## Hasil Evaluasi Model
+
+Tiga model yang diuji dalam proyek ini adalah **Linear Regression**, **Random Forest**, dan **K-Nearest Neighbors (KNN)**. Hasil evaluasi berdasarkan metrik **R²**, **RMSE**, dan **MAE** adalah sebagai berikut:
+
+### 1. **Linear Regression**
+   - **R²**: 0.950
+   - **RMSE**: 1.49
+   - **MAE**: 1.23
+
+### 2. **Random Forest**
+   - **R²**: 1.000
+   - **RMSE**: 0.04
+   - **MAE**: 0.00
+
+### 3. **K-Nearest Neighbors (KNN)**
+   - **R²**: 0.671
+   - **RMSE**: 3.82
+   - **MAE**: 2.59
+
+## Komparasi Model
+Berdasarkan hasil evaluasi, model **Random Forest** menunjukkan performa terbaik dengan **R² = 1.000**, yang berarti model ini dapat sepenuhnya menjelaskan variansi dalam data target dan memberikan prediksi yang sangat akurat. Nilai **RMSE = 0.04** dan **MAE = 0.00** menunjukkan bahwa model ini sangat baik dalam memprediksi nilai yang sebenarnya.
+
+**Linear Regression** juga memberikan hasil yang baik dengan **R² = 0.950**, yang menunjukkan bahwa model ini dapat menjelaskan sekitar 94.6% variansi dalam data target. Meskipun demikian, RMSE dan MAE yang sedikit lebih besar (1.49 dan 1.23) menunjukkan bahwa prediksi model ini sedikit lebih tidak akurat dibandingkan dengan Random Forest.
+
+**K-Nearest Neighbors (KNN)** memiliki performa yang lebih rendah, dengan **R² = 0.671**, yang menunjukkan bahwa model ini hanya dapat menjelaskan sekitar 66.9% variansi dalam data target. **RMSE = 3.82** dan **MAE = 2.59** menunjukkan bahwa prediksi model ini memiliki kesalahan yang lebih besar dibandingkan dengan dua model lainnya.
+
+## Visualisasi Hasil Model
+Untuk memberikan wawasan yang lebih dalam mengenai performa model, dilakukan visualisasi yang menunjukkan hubungan antara **Actual % Silica Feed** dan **Predicted % Silica Feed** pada setiap model. Visualisasi ini membantu untuk melihat seberapa baik model-model tersebut dalam mencocokkan nilai prediksi dengan nilai aktual.
+
+- **Linear Regression** dan **Random Forest** menunjukkan pola yang sangat dekat dengan garis diagonal (garis merah), menunjukkan prediksi yang hampir sempurna.
+- **KNN** menunjukkan pola yang lebih tersebar, dengan variasi yang lebih besar dalam prediksi dibandingkan dengan kedua model lainnya. Ini menunjukkan bahwa **KNN** kurang stabil dalam memprediksi nilai target.
+
+## Sample Testing
+
+Untuk lebih mendalami performa model, berikut adalah hasil prediksi untuk **% Silica Feed** pada satu sampel data yang diuji:
+
+
+- % Silica Feed Actual: 6.26
+- Linear Regression   : 5.27
+- Random Forest       : 6.26
+
+Dari hasil testing pada sampel tersebut, terlihat bahwa:
+- **Linear Regression** memberikan prediksi yang sangat dekat dengan nilai aktual, meskipun ada sedikit selisih.
+- **Random Forest** memberikan prediksi yang tepat, sesuai dengan nilai aktual.
+
+
+
+### Kesesuaian dengan Problem Statement
+
+Model yang telah dibangun memberikan solusi yang sangat relevan terhadap masalah yang ingin diselesaikan dalam proyek ini. Berikut adalah bagaimana masing-masing problem statement dapat dijawab:
+
+- **Problem Statement 1**: Membangun model machine learning untuk memprediksi kualitas bijih besi berdasarkan variabel seperti **% Iron Feed**, **% Silica Feed**, dan parameter lainnya.
+  
+  Model **Random Forest** menunjukkan hasil yang sangat baik dalam memprediksi kualitas bijih besi, dengan **R² = 1.000** dan **MAE = 0.00**, yang menunjukkan bahwa model ini dapat memisahkan dengan akurat bijih besi berkualitas tinggi dan rendah. Hasil ini menunjukkan kemampuan model untuk mengatasi masalah prediksi kualitas bijih secara efektif.
+
+- **Problem Statement 2**: Mengukur kinerja model dengan metrik evaluasi yang tepat, seperti **R²**, **RMSE**, dan **MAE**, untuk memastikan keandalan dan aplikasi model dalam lapangan.
+  
+  Berdasarkan evaluasi metrik, **Random Forest** berhasil menunjukkan performa luar biasa dengan **R² = 1.000**, **RMSE = 0.04**, dan **MAE = 0.00**. Metrik-metrik ini menunjukkan bahwa model ini sangat dapat diandalkan dan cocok untuk digunakan di lapangan, memenuhi standar keakuratan yang diperlukan untuk aplikasi praktis di sektor pertambangan.
+
+- **Problem Statement 3**: Memanfaatkan model untuk meningkatkan efisiensi proses flotasi, mengurangi pemborosan material, dan mempercepat pengambilan keputusan terkait kualitas bijih.
+  
+  Dengan hasil yang sangat akurat dari **Random Forest**, model ini dapat membantu dalam mengoptimalkan proses flotasi, mengurangi pemborosan material, dan mempercepat pengambilan keputusan terkait kualitas bijih. Prediksi yang akurat memungkinkan perusahaan untuk membuat keputusan yang lebih tepat waktu dan berbasis data.
+
+### Pencapaian Tujuan Proyek
+
+Proyek ini berhasil mencapai setiap tujuan yang ditetapkan, dengan hasil yang menunjukkan bahwa model yang dibangun dapat memenuhi harapan yang telah ditentukan:
+
+- **Goal 1**: Membangun model prediktif berbasis machine learning untuk memproses data historis dan memprediksi kualitas bijih besi.
+  
+  **Random Forest** berhasil memproses data historis dan memberikan prediksi dengan akurasi tinggi, memenuhi tujuan pertama proyek untuk membangun model prediktif yang efektif dan dapat diandalkan.
+
+- **Goal 2**: Mengevaluasi performa model dengan menggunakan metrik yang relevan seperti **R²**, **RMSE**, dan **MAE** untuk memastikan akurasi dan efektivitasnya dalam memprediksi kualitas bijih.
+  
+  Evaluasi yang dilakukan dengan menggunakan metrik-metrik tersebut mengonfirmasi bahwa **Random Forest** adalah model terbaik untuk memprediksi kualitas bijih besi, sesuai dengan tujuan evaluasi proyek.
+
+- **Goal 3**: Menyediakan solusi berbasis data yang dapat digunakan untuk mempercepat proses analisis dan meningkatkan efisiensi operasional di sektor pertambangan.
+  
+  Model ini dapat mempercepat analisis kualitas bijih besi, yang memungkinkan peningkatan efisiensi operasional, serta mendukung pengambilan keputusan yang lebih tepat dalam waktu yang lebih singkat.
+
 
 # Referensi
 [1] V. N. Oparin, "Mining Industry and Sustainable Development: Time for Change," Journal of Mining Science, vol. 52, no. 6, pp. 1430-1441, Dec. 2016.
