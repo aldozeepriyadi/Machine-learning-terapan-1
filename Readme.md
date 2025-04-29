@@ -309,17 +309,17 @@ mae_lr = mean_absolute_error(y_test, y_pred_lr)  # Menghitung MAE
 print(f"Linear Regression -> R²: {r2_lr:.3f}, RMSE: {rmse_lr:.2f}, MAE: {mae_lr:.2f}")
 ```
 
-## Random Forest Regressor
+## Random Forest 
 
 ### Deskripsi
-**Random Forest Regressor** adalah algoritma ensemble yang digunakan untuk memprediksi nilai numerik. Algoritma ini bekerja dengan membangun banyak pohon keputusan (decision trees) pada subset acak dari data pelatihan dan menggabungkan hasil prediksi dari masing-masing pohon untuk menghasilkan prediksi akhir. Random Forest sangat berguna dalam menangkap hubungan yang lebih kompleks antara fitur dan target, serta mengurangi overfitting yang sering terjadi pada pohon keputusan tunggal.
+**Random Forest** adalah algoritma ensemble yang digunakan untuk memprediksi nilai numerik. Algoritma ini bekerja dengan membangun banyak pohon keputusan (decision trees) pada subset acak dari data pelatihan dan menggabungkan hasil prediksi dari masing-masing pohon untuk menghasilkan prediksi akhir. Random Forest sangat berguna dalam menangkap hubungan yang lebih kompleks antara fitur dan target, serta mengurangi overfitting yang sering terjadi pada pohon keputusan tunggal.
 
 ### Cara Kerja Random Forest
 **Random Forest** bekerja dengan membangun banyak pohon keputusan secara acak, dengan memilih subset acak dari data dan fitur untuk setiap pohon. Setiap pohon dilatih secara independen, dan hasil prediksi dari semua pohon digabungkan untuk menghasilkan prediksi final. Dalam regresi, hasil prediksi dari setiap pohon dijumlahkan atau dirata-ratakan untuk menghasilkan prediksi akhir.
 
 Model ini sangat kuat karena dapat menangkap kompleksitas yang lebih besar dalam data dan memiliki mekanisme untuk menghindari overfitting.
 
-### Parameter Model Random Forest Regressor
+### Parameter Model Random Forest 
 
 Dalam implementasi ini, hanya satu parameter yang digunakan, yaitu **`random_state`**:
 
@@ -328,9 +328,9 @@ Dalam implementasi ini, hanya satu parameter yang digunakan, yaitu **`random_sta
 
    Pada kode ini, `random_state` diatur ke nilai `42` untuk memastikan bahwa hasil model dapat direproduksi dan konsisten saat dijalankan berulang kali.
 
-### Kode Implementasi Random Forest Regressor
+### Kode Implementasi Random Forest 
 
-Berikut adalah kode untuk mengimplementasikan **Random Forest Regressor** dengan parameter **`random_state`**:
+Berikut adalah kode untuk mengimplementasikan **Random Forest** dengan parameter **`random_state`**:
 
 ```python
 rf_model = RandomForestRegressor(random_state=42)
